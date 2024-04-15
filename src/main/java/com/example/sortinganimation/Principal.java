@@ -3,14 +3,10 @@ package com.example.sortinganimation;
 import javafx.animation.PauseTransition;
 import javafx.application.Application;
 import javafx.application.Platform;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
-import javafx.scene.control.ListView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.text.FontWeight;
@@ -41,30 +37,6 @@ public class Principal extends Application {
         }
     }
 
-
-   /* public void gnome_sort() {
-        int index = 0;
-        int length = vet.length;
-
-        while (index < length) {
-            if (index == 0) {
-                index++;
-            }
-            if (Integer.parseInt(vet[index].getText()) >= Integer.parseInt(vet[index - 1].getText())) {
-                index++;
-            } else {
-                String temp = vet[index].getText();
-                vet[index].setText(vet[index - 1].getText());
-                vet[index - 1].setText(temp);
-                if (index > 1) {
-                    index--;
-                }
-            }
-        }
-
-        for (int i=0; i< vet.length; i++)
-            System.out.println(vet[i].getText());
-    }*/
 
     @Override
     public void start(Stage stage) throws Exception {
@@ -98,11 +70,12 @@ public class Principal extends Application {
 
         gerarValores.setText("Gerar Valores");
 
+
         ordena.setLayoutY(50);
         ordena.setLayoutX(200);
         ordena.setText("Iniciar Ordenação");
         gerarValores.setOnAction(e -> gerarValores());
-        ordena.setOnAction(e -> gnome_sort());
+        ordena.setOnAction(e -> shellSort());
         pane.getChildren().add(gerarValores);
         pane.getChildren().add(ordena);
 
@@ -115,12 +88,15 @@ public class Principal extends Application {
             vet[i].setMinHeight(40);
             vet[i].setMinWidth(40);
             vet[i].setFont(new Font(14));
+            vet[i].setStyle("-fx-background-color: #696969");
+            vet[i].setStyle("--title-color: #696969");
+
             //vet[i].setVisible(false);
 
             labels[i] = new Label(Integer.toString(i));
             labels[i].setLayoutX(118 + i * 40);
             labels[i].setLayoutY(250);
-            // labels[i].setVisible(false);
+            labels[i].setVisible(true);
             pane.getChildren().add(labels[i]);
             pane.getChildren().add(vet[i]);
         }
@@ -160,7 +136,7 @@ public class Principal extends Application {
         Label label = (Label) codePane.getChildren().get(lineNumber);
         label.setTextFill(Color.RED);
 
-        PauseTransition pause = new PauseTransition(javafx.util.Duration.seconds(2));
+        PauseTransition pause = new PauseTransition(javafx.util.Duration.millis(500));
         pause.setOnFinished(event -> {
             label.setTextFill(Color.BLACK);
         });
@@ -170,14 +146,18 @@ public class Principal extends Application {
     public void gnome_sort() {
         Task<Void> task = new Task<Void>() {
             int index = 1;
+            boolean permutou = false;
 
             @Override
             protected Void call() {
                 Platform.runLater(() -> {
                     highlightLine(1);
                 });
+
+                vet[index].setStyle("-fx-background-color: #c2c2c2");
+
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -187,7 +167,7 @@ public class Principal extends Application {
                     highlightLine(2);
                 });
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(500);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -198,7 +178,7 @@ public class Principal extends Application {
                         highlightLine(4);
                     });
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(500);
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -207,7 +187,7 @@ public class Principal extends Application {
                             highlightLine(5);
                         });
                         try {
-                            Thread.sleep(2000);
+                            Thread.sleep(500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -216,7 +196,7 @@ public class Principal extends Application {
                             highlightLine(6);
                         });
                         try {
-                            Thread.sleep(2000);
+                            Thread.sleep(500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -225,7 +205,7 @@ public class Principal extends Application {
                             highlightLine(7);
                         });
                         try {
-                            Thread.sleep(2000);
+                            Thread.sleep(500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -234,7 +214,7 @@ public class Principal extends Application {
                             highlightLine(8);
                         });
                         try {
-                            Thread.sleep(2000);
+                            Thread.sleep(500);
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
@@ -243,7 +223,7 @@ public class Principal extends Application {
                             Platform.runLater(() -> vet[index].setLayoutY(vet[index].getLayoutY() + 5));
                             Platform.runLater(() -> vet[index - 1].setLayoutY(vet[index - 1].getLayoutY() - 5));
                             try {
-                                Thread.sleep(80);
+                                Thread.sleep(40);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -264,7 +244,7 @@ public class Principal extends Application {
                                 finalButtonJ.setLayoutX(posJ - posY);
                             });
                             try {
-                                Thread.sleep(80);
+                                Thread.sleep(40);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -273,7 +253,7 @@ public class Principal extends Application {
                             Platform.runLater(() -> vet[index].setLayoutY(vet[index].getLayoutY() - 5));
                             Platform.runLater(() -> vet[index - 1].setLayoutY(vet[index - 1].getLayoutY() + 5));
                             try {
-                                Thread.sleep(80);
+                                Thread.sleep(40);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
@@ -289,38 +269,56 @@ public class Principal extends Application {
                                 highlightLine(9);
                             });
                             try {
-                                Thread.sleep(2000);
+                                Thread.sleep(500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
+
+                            if (permutou) {
+
+                                vet[index - 1].setStyle("-fx-background-color: #696969");
+                                vet[index - 1].setStyle("--title-color: #696969");
+                            } else {
+                                vet[index].setStyle("-fx-background-color: #696969");
+                                vet[index].setStyle("--title-color: #696969");
+                            }
+
                             index--;
+                            vet[index].setStyle("-fx-background-color: #c2c2c2");
                             Platform.runLater(() -> {
                                 highlightLine(10);
                             });
                             try {
-                                Thread.sleep(2000);
+                                Thread.sleep(500);
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
                         }
 
-                    } else
+                    } else {
                         Platform.runLater(() -> {
                             highlightLine(11);
                         });
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                    index++;
-                    Platform.runLater(() -> {
-                        highlightLine(12);
-                    });
-                    try {
-                        Thread.sleep(2000);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
+
+                        vet[index].setStyle("-fx-background-color: #696969");
+                        vet[index].setStyle("--title-color: #696969");
+                        index++;
+                        System.out.println("passou aq");
+                        vet[index].setStyle("-fx-background-color: #c2c2c2");
+
+                        Platform.runLater(() -> {
+                            highlightLine(12);
+                        });
+                        try {
+                            Thread.sleep(500);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
 
@@ -333,25 +331,116 @@ public class Principal extends Application {
         Thread thread = new Thread(task);
         thread.start();
     }
-    public void move_botoes() {
+
+    public void shellSort() {
         Task<Void> task = new Task<Void>() {
+            int i, j, dist = 1, pos = 0, cont = 0;
+            double aux = 0;
+
             @Override
             protected Void call() {
+                while (dist < vet.length / 3) {
+                    dist = dist * 3 + 1;
+                }
+                System.out.println(dist);
 
-                int index = 0;
-                int length = vet.length;
+                while (dist > 0) {
+                    for (i = dist; i < vet.length; i++) {
+                        Button temp = vet[i];
+                        int auxTemp = i;
+                        for (int mudanca = 0; mudanca < 10; mudanca++) {
+                            Platform.runLater(() -> vet[i].setLayoutY(vet[i].getLayoutY() - 5));
+                            try {
+                                Thread.sleep(50);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        j = i;
 
-                while (index < length) {
-                    if (index == 0) {
-                        index++;
-                    }
-                    if (Integer.parseInt(vet[index].getText()) >= Integer.parseInt(vet[index - 1].getText())) {
-                        index++;
-                    } else {
+                        while (j >= dist && Integer.parseInt(vet[j - dist].getText()) > Integer.parseInt(temp.getText())) {
+                            for (int i = 0; i < 10; i++) {
+                                Platform.runLater(() -> vet[j - dist].setLayoutY(vet[j - dist].getLayoutY() + 5));
+                                //Platform.runLater(() -> vet[j].setLayoutY(vet[j].getLayoutY() - 5));
+                                try {
+                                    Thread.sleep(50);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            System.out.println("-------------------");
+                            System.out.println(j);
+                            System.out.println(j - dist);
+                            Button buttonI = vet[j];
+                            Button buttonJ;
+                               /* if (pos != 0)
+                                    buttonJ = vet[j - dist];
+                                else*/
+                            buttonJ = vet[j - dist];
+                            if (cont > 0)
+                                aux = buttonJ.getLayoutX();
+                            System.out.println("salvei em aux: " + aux);
+                            final double posI = buttonI.getLayoutX();
+                            final double posJ;
+
+                            if (pos != 0) {
+                                posJ = aux;
+                                System.out.println("antigo pos j-dist " + aux);
+                            }
+                            else {
+                                posJ = buttonJ.getLayoutX();
+                            }
+                            aux = posJ;
+                            System.out.println("Pos j: " + posI);
+                            System.out.println("Pos j - dist: " + posJ);
+                            final double diff = posJ - posI;
+
+                            for (double y = 0; Math.abs(y) <= Math.abs(diff); y += (diff > 0 ? 5 : -5)) {
+                                final double posY = y;
+                                Button finalButtonI = buttonI;
+                                Button finalButtonJ = buttonJ;
+                                Platform.runLater(() -> {
+                                    //finalButtonI.setLayoutX(posI + posY);
+                                    finalButtonJ.setLayoutX(posJ - posY);
+                                });
+                                try {
+                                    Thread.sleep(80);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            pos += dist;
+
+                            for (int i = 0; i < 10; i++) {
+                                //Platform.runLater(() -> vet[j - dist].setLayoutY(vet[j - dist].getLayoutY() - 5));
+                                Platform.runLater(() -> vet[j - dist].setLayoutY(vet[j - dist].getLayoutY() - 5));
+                                try {
+                                    Thread.sleep(50);
+                                } catch (InterruptedException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                            
+                            vet[j] = vet[j - dist];
+                            j = j - dist;
+                            cont++;
+                        }
+
+                        //if()
+                        for (int mudanca = 0; mudanca < pos * 10; mudanca++) {
+                            Platform.runLater(() -> temp.setLayoutX(temp.getLayoutX() - 4));
+                            //Platform.runLater(() -> vet[1].setLayoutY(vet[1].getLayoutY() + 5));
+                            try {
+                                Thread.sleep(20);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                        }
+
                         for (int i = 0; i < 10; i++) {
-                            int finalIndex = index;
-                            Platform.runLater(() -> vet[finalIndex].setLayoutY(vet[finalIndex].getLayoutY() + 5));
-                            Platform.runLater(() -> vet[finalIndex- 1].setLayoutY(vet[finalIndex - 1].getLayoutY() - 5));
+                            Platform.runLater(() -> temp.setLayoutY(temp.getLayoutY() + 5));
+
+                            // Platform.runLater(() -> vet[j].setLayoutX(vet[j].getLayoutX() - 5));
                             try {
                                 Thread.sleep(50);
                             } catch (InterruptedException e) {
@@ -359,82 +448,17 @@ public class Principal extends Application {
                             }
                         }
 
-                        Button buttonI = vet[index];
-                        Button buttonJ = vet[index - 1];
-                        final double posI = buttonI.getLayoutX();
-                        final double posJ = buttonJ.getLayoutX();
-                        final double diff = posJ - posI;
-
-                        for (double y = 0; Math.abs(y) <= Math.abs(diff); y += (diff > 0 ? 5 : -5)) {
-                            final double posY = y;
-                            Button finalButtonI = buttonI;
-                            Button finalButtonJ = buttonJ;
-                            Platform.runLater(() -> {
-                                finalButtonI.setLayoutX(posI + posY);
-                                finalButtonJ.setLayoutX(posJ - posY);
-                            });
-                            try {
-                                Thread.sleep(50);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                        for (int i = 0; i < 10; i++) {
-                            int finalIndex = index;
-
-                            Platform.runLater(() -> vet[finalIndex].setLayoutY(vet[finalIndex].getLayoutY() - 5));
-                            Platform.runLater(() -> vet[finalIndex - 1].setLayoutY(vet[finalIndex - 1].getLayoutY() + 5));
-                            try {
-                                Thread.sleep(50);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        Button temp = vet[index];
-                        vet[index] = vet[index - 1];
-                        vet[index - 1] = temp;
-                        if (index > 1) {
-                            index--;
-                        }
+                        pos = 0;
+                        //cont = 0;
+                        vet[j] = temp;
                     }
-                }
 
-                for (int i=0; i< vet.length; i++)
-                    System.out.println(vet[i].getText());
-//permutação na tela
-               /* for (int i = 0; i < 10; i++) {
-                    Platform.runLater(() -> vet[0].setLayoutY(vet[0].getLayoutY() + 5));
-                    Platform.runLater(() -> vet[1].setLayoutY(vet[1].getLayoutY() - 5));
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-                for (int i = 0; i < 16; i++) {
-                    Platform.runLater(() -> vet[0].setLayoutX(vet[0].getLayoutX() + 5));
 
-                    Platform.runLater(() -> vet[1].setLayoutX(vet[1].getLayoutX() - 5));
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+                    dist = dist / 3;
                 }
-                for (int i = 0; i < 10; i++) {
-                    Platform.runLater(() -> vet[0].setLayoutY(vet[0].getLayoutY() - 5));
-                    Platform.runLater(() -> vet[1].setLayoutY(vet[1].getLayoutY() + 5));
-                    try {
-                        Thread.sleep(50);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-//permutação na memória
-                Button aux = vet[0];
-                vet[0] = vet[1];
-                vet[1] = aux;*/
+                for (int i = 0; i < vet.length; i++)
+                    System.out.println(vet[i].getText() + "-");
+                System.out.println();
                 return null;
             }
         };
